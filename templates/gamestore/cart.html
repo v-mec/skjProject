@@ -1,0 +1,43 @@
+{% extends 'gamestore/base.html' %}
+
+{% block body %}
+    <h4>User cart</h4>
+    {% if cart_game_list %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cart_game in cart_game_list %}
+                <tr>
+                    <td>{{ cart_game.name }}</td>
+                    <td>{{ cart_game.price }}€</td>
+                    <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="game_id" value="{{ cart_game.id }}"/>
+                            <button type="submit" class="btn btn-danger btn-floating btn-sm">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col">
+                <p>Total price: {{ total_price }}€</p>
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-primary" href="{% url 'order' %}">Place order</a>
+            </div>
+        </div>
+    {% else %}
+        <p>Your cart is empty</p>
+    {% endif %}
+{% endblock %}

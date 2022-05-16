@@ -1,0 +1,27 @@
+{% extends 'gamestore/base.html' %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card mb-3">
+                <div class="card-body row">
+                    <div class="col-auto">
+                        <img src="https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg"
+                             class="rounded-circle" height="125" loading="lazy"/>
+                    </div>
+                    <div class="col">
+                        <h4 class="card-title">{{ user.username }}</h4>
+                        <h6>{{ user.first_name }} {{ user.last_name }}</h6>
+                        <p>{{ user.customer.about }}</p>
+                    </div>
+                </div>
+            </div>
+            <h5>User library</h5>
+            <ul class="list-group list-group-light">
+                {% for user_game in user_games %}
+                    <li class="list-group-item">{{ user_game }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

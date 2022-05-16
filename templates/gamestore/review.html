@@ -1,0 +1,58 @@
+{% extends 'gamestore/base.html' %}
+
+{% block body %}
+    <h5>{{ review.user.username }}'s review of {{ review.game.name }}</h5>
+    <p>{{ review.text }}</p>
+    {% if review.recommend %}
+        <p class="text-success border border-2 rounded-5 border-success p-2 d-inline-block"><i
+                class="fas fa-thumbs-up"></i> Recommends the game</p>
+    {% else %}
+        <p class="text-danger border border-2 rounded-5 border-danger p-2 d-inline-block"><i
+                class="fas fa-thumbs-down"></i> Does not recommend the game</p>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="card-title">New comment</h6>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-outline">
+                        <textarea class="form-control" id="text" rows="4" name="text"
+                                  required></textarea>
+                        <label class="form-label" for="text">Review text</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3"><i
+                            class="far fa-paper-plane me-2"></i>Send
+                    </button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+    <ul class="list-group list-group-light mt-4">
+        {% for comment in comments %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">
+                        <p>
+                            <img src="https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-e1513291410505.jpg"
+                                 class="rounded-circle" height="25" loading="lazy"/> <a
+                                href="{% url 'profile' review.user.id %}"
+                                class="link-black">{{ review.user.username }}</a></p>
+                        <p>{{ comment.text }}</p>
+                    </div>
+                    <div class="col-auto">
+                        {% if comment.user == user %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" value="{{ comment.id }}" name="deleteComment"
+                                        class="btn btn-danger"><i
+                                        class="far fa-trash-alt me-2"></i>Delete
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

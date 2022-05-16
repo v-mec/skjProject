@@ -1,0 +1,21 @@
+{% extends 'gamestore/base.html' %}
+
+{% block body %}
+    <div class="text-center mt-5" id="loading">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Processing your order</p>
+    </div>
+    <div class="text-center mt-5" id="success" style="visibility: hidden">
+        <h3 class="text-success">Your order has been finished!</h3>
+        <p>You will find your new games in your library</p>
+        <a href="{% url 'index' %}">Back to store</a>
+    </div>
+    <script>
+        setTimeout(() => {
+            document.getElementById("loading").remove()
+            document.getElementById("success").style.visibility = "visible"
+        }, 3000)
+    </script>
+{% endblock %}

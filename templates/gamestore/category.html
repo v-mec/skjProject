@@ -1,0 +1,20 @@
+{% extends 'gamestore/base.html' %}
+
+{% block body %}
+    <h5>{{ category.name }} games</h5>
+    <div class="list-group list-group-light border">
+        {% for game in game_list %}
+            <a class="list-group-item list-group-item-action px-3" href="{% url 'game' game.id %}">
+                <div class="row ">
+                    <div class="col-auto">
+                        <img src="{{ game.cover.url }}" class="rounded" style="max-width: 150px"/>
+                    </div>
+                    <div class="col-auto">
+                        <h6>{{ game.name }}</h6>
+                        <p>{{ game.price }} €</p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

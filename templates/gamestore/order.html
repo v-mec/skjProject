@@ -1,0 +1,32 @@
+{% extends 'gamestore/base.html' %}
+
+{% block body %}
+    <h4>Order</h4>
+    <h5>Credit card info</h5>
+    <form class="col-5" method="post">
+        {% csrf_token %}
+        <div class="form-outline mb-3">
+            <input type="text" id="card_number" class="form-control" placeholder="1111-1111-1111-1111" required/>
+            <label class="form-label" for="card_number">Card number</label>
+        </div>
+        <div class="form-outline mb-3">
+            <input type="text" id="name" class="form-control" placeholder="John Doe" required/>
+            <label class="form-label" for="name">Cardholder name</label>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="expiry" class="form-control" placeholder="MM/YYYY" required/>
+                    <label class="form-label" for="expiry">Expiry date</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="code" class="form-control" placeholder="123" required/>
+                    <label class="form-label" for="code">Security code</label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mb-4">Purchase</button>
+    </form>
+{% endblock %}

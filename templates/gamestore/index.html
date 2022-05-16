@@ -1,0 +1,101 @@
+{% extends 'gamestore/base.html' %}
+
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-5">
+        <div class="container-fluid">
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% for category in category_list %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'category' category.id %}">{{ category.name }}</a>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+            <form class="d-flex input-group w-auto" action="{% url 'search' %}">
+                <input
+                        type="search"
+                        name="query"
+                        class="form-control rounded"
+                        placeholder="Search"
+                        aria-label="Search"
+                        aria-describedby="search-addon"
+                />
+                <button type="submit" class="input-group-text text-white border-0" id="search-addon"><i
+                        class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </nav>
+    <div class="shadow-2-strong rounded-5 mt-3">
+        <div class="row g-0">
+            <div class="col-4">
+                <div id="list" class="list-group list-group-light h-100">
+                    {% for recent_game in recent_game_list %}
+                        <a href="{% url 'game' recent_game.id %}"
+                           class="list-group-item list-group-item-action px-3 border-0 h-100 {% if forloop.first %} active {% endif %}">
+                            <h6>{{ recent_game.name }}</h6>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col">
+                <div id="carousel" class="carousel slide carousel-fade" data-mdb-ride="carousel">
+                    <div class="carousel-inner rounded-5">
+                        {% for recent_game in recent_game_list %}
+                            <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                                <img src="{{ recent_game.banner.url }}"
+                                     class="d-block w-100"/>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-mdb-target="#carousel"
+                            data-mdb-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-mdb-target="#carousel"
+                            data-mdb-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="list-group list-group-light border mt-3 mb-3">
+        {% for game in game_list %}
+            <a class="list-group-item list-group-item-action px-3" href="{% url 'game' game.id %}">
+                <div class="row ">
+                    <div class="col-auto">
+                        <img src="{{ game.cover.url }}" class="rounded" style="max-width: 150px"/>
+                    </div>
+                    <div class="col-auto">
+                        <h6>{{ game.name }}</h6>
+                        <p>{{ game.price }} €</p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <script>
+        const carousel = document.getElementById('carousel');
+
+        carousel.addEventListener('slide.bs.carousel', (e) => {
+            document.querySelector(`#list a:nth-child(${e.from + 1})`).classList.remove('active')
+            document.querySelector(`#list a:nth-child(${e.to + 1})`).classList.add('active')
+        })
+    </script>
+{% endblock %}
